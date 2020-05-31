@@ -8,7 +8,7 @@ package parkingLot;
 import car.Car;
 import java.util.ArrayList;
 
-// Create parking lot class that has all the attributes and behaviours associated with a Parking Lot
+// Create ParkingLot class that has all the attributes and behaviours associated with a Parking Lot
 public class ParkingLot {
     int capacity = 0;
     int slotId = 0;
@@ -16,9 +16,7 @@ public class ParkingLot {
     int[] slots;
     Car[] slotsCar;
 
-    public ParkingLot() {
-    }
-
+    // Parameterized constructor which sets the initial slots as unallocated by setting each slot value to -1
     public int createParkingLot(int capacity) {
         this.capacity = capacity;
         this.slots = new int[capacity];
@@ -31,6 +29,7 @@ public class ParkingLot {
         return this.capacity;
     }
 
+    // Fetch unallocated slot
     public int getEmptySlot() {
         for(int i = 0; i < this.capacity; ++i) {
             if(this.slots[i] == -1) {
@@ -38,33 +37,55 @@ public class ParkingLot {
             }
         }
 
+        // If no unallocated slot exists return -1
         return -1;
     }
 
+
+    // Park car into unallocated slot
     public int park(String regNumber, String colour) {
+
+        // Check if the parking lot is empty
         if(this.nOfOccupiedSlots < this.capacity) {
-            int emptySlotId = this.getEmptySlot(); //emptySlotId
+
+            // Get id of the empty slot
+            int emptySlotId = this.getEmptySlot();
+
+            // Allocate car to slot
             this.slots[emptySlotId] = emptySlotId;
             this.slotsCar[emptySlotId] = new Car(regNumber, colour);
+
+            // Increment attributes associated with slots
             ++this.slotId;
             ++this.nOfOccupiedSlots;
+
             return emptySlotId + 1;
         } else {
+
+            // If the parking lot is full return -1
             return -1;
         }
     }
 
+    // When a car leaves unallocated the slot allocated to the car
     public boolean leave(int slotId) {
+
+        // Check if the parking lot is full
         if(this.nOfOccupiedSlots > 0 && this.slots[slotId] != -1) {
+
+            // Unallocate the slot assigned to the given car
             this.slots[slotId - 1] = -1;
             this.slotsCar[slotId - 1] = null;
             --this.nOfOccupiedSlots;
             return true;
         } else {
+
+            // If the parking lot is full return false
             return false;
         }
     }
 
+    // Fetch the current state of the parking lot
     public void status() {
         System.out.println("Slot No.\tRegistration No.\tColor");
 
@@ -75,32 +96,43 @@ public class ParkingLot {
         }
     }
 
+    // Get the registration number of all the cars of a given colour
     public ArrayList<String> getRegNumberFromColor(String colour) {
         ArrayList regNumbers = new ArrayList();
 
         for(int i = 0; i < this.slots.length; ++i) {
+
+            // Check if the slot is empty and if car of the given colour is present in the slot
             if(this.slots[i] != -1 && this.slotsCar[i].color.equals(colour)) {
                 regNumbers.add(this.slotsCar[i].regNumber);
             }
         }
 
+        // return the registration numbers
         return regNumbers;
     }
 
+    // Get slot number that contain car of a given registration number
     public int getSlotNumberFromRegNumber(String regNumber) {
         for(int i = 0; i < this.slots.length; ++i) {
+
+            // Check if there is a slot that contains car of given registration number
             if(this.slotsCar[i].regNumber.equals(regNumber)) {
                 return i + 1;
             }
         }
 
+        // If no slot contains car with the given registration number then return -1
         return -1;
     }
 
+    // Get slot numbers that contain car of a given color
     public ArrayList<String> getSlotNumberFromColor(String colour) {
         ArrayList slotNumbers = new ArrayList();
 
         for(int i = 0; i < this.slots.length; ++i) {
+
+            // Check if the slot is empty and if car of the given colour is present in the slot
             if(this.slots[i] != -1 && this.slotsCar[i].color.equals(colour)) {
                 slotNumbers.add(Integer.toString(i + 1));
             }
@@ -109,6 +141,7 @@ public class ParkingLot {
         return slotNumbers;
     }
 
+    // Function that checks the commands given by the user and executes appropriate methods depending on the user command
     public void show(String var1) {
         int var2;
         int var3;
@@ -158,6 +191,5 @@ public class ParkingLot {
                 }
             }
         }
-
     }
 }
