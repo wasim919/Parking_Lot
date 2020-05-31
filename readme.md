@@ -13,6 +13,10 @@
 
 ## Output
 
-![alt]("\outputImages\commandLineOutput.PNG")
+- Output when input is given via command line arguments through a file
 
-![alt]("\outputImages\consoleOutput.PNG");
+![alt](\outputImages\commandLineOutput.PNG)
+
+- Output when input is given via console
+
+![alt](\outputImages\consoleOutput.PNG)
